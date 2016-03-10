@@ -17,6 +17,10 @@ $event-blue-background: #0e1e38;
   }
 }
 
+img {
+    max-width: 100%;
+}
+
 .flat-btn {
   &:visited, &:hover { text-decoration: none; }
   background: $greenish;
@@ -40,12 +44,12 @@ $event-blue-background: #0e1e38;
   min-height: 66px;
   border-bottom: 1px solid $light-gray;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  padding: 10px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px 0;
 
   .slack-form {
-    margin-right: 30px;
+    
     label { 
       margin-right: 15px; 
       i { margin-right: 5px; }
@@ -55,56 +59,48 @@ $event-blue-background: #0e1e38;
 
 .social-icons {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  border-left: 1px solid #f4f4f4;
-  padding-left: 20px;
+  width: 100%;
 
   .sm-link {
-    margin-right: 40px;
     color: #c7cbcc;
     font-size: 10px;
     text-transform: uppercase;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
     span.fa-stack {
-      margin-right: 10px;
       color: white;
+      
       .fa-github { color: black; font-size: 2em; }
     }
 
     &:nth-child(1) i.fa-circle { color: #00b0fa; }
     &:nth-child(2) i.fa-circle { color: #1f5e94; }
     &:nth-child(3) i.fa-circle { color: #d74e3e; }
-    &:last-child { margin-right: 0px; }
   }
 }
 
 .logo-menu {
-  min-height: 106px;
-  padding: 30px 130px 0;
-  display: flex;
-  flex-direction: row;
-  border-bottom: 2px solid #c2cad7;
-
-  img { 
-    height: 50px;
-  }
+  padding: 30px 0 0;
 
   .motto {
-    margin-left: 20px;
-    width: 300px;
+    margin: 1em 0;
+    
     header { color: $title-gray; font-size:18px; }
     .description { color: #c7cbcc; font-size:13px; }
   }
 
   .main-menu {
     display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    flex-grow: 1;
+    text-align: center;
+    margin: 1em 0;
+    
     a {
       font-size: 18px;
       color: #11414f;
-      margin-right: 55px;
+      flex: 1;
 
       &:last-child {
         margin-right: 0px;
@@ -115,7 +111,6 @@ $event-blue-background: #0e1e38;
 .event-header {
   background: $header-blue;
   color: white;
-  min-width: 50px;
   text-transform: uppercase;
   text-align: center;
   font-size: 15px;
@@ -124,13 +119,12 @@ $event-blue-background: #0e1e38;
 }
 
 .featured-videos {
-  border: 10px solid #eee;
+  border: 15px solid #eee;
+  
   > header {
-    height: 85px;
-    padding: 25px 120px 0 ;
+    padding: 15px 30px;
     border-bottom: 1px solid #eee;
     display: flex;
-    flex-direction:row;
     justify-content: space-between;
 
     .title {color: #373737; font-size:20px;}
@@ -150,12 +144,15 @@ $event-blue-background: #0e1e38;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    padding: 25px 120px;
+    padding: 25px 15px;
+    flex-wrap: wrap;
 
     .video {
-      img { height: 189px; }
-      flex-basis: 20% ;
-
+      img { width: 100%; }
+      
+      width: 100%;
+      margin-bottom: 30px;
+      
       .title {
         color: #000;
         font-size: 20px;
@@ -187,7 +184,6 @@ footer.main-footer {
     padding: 0 20px 20px;
     margin: 10px;
     display: flex;
-    flex-direction: row;
     justify-content: center;
 
     a { 
@@ -207,24 +203,24 @@ footer.main-footer {
   article {
     .message {
       color: #080808;
-      margin-bottom: 40px;
+      padding: 1.5em 15px;
       font-size: 20px;
     }
 
     .members {
       display: flex;
-      flex-direction: row;
-      justify-content: center;
+      flex-wrap: wrap;
+      justify-content: space-around;
 
       .member {
+        width: 100%;
 
         img { border-radius: 50%; }
 
         background: #0d1e38;
-        width: 270px;
+        max-width: 270px;
         padding: 30px 0;
         color:white;
-        margin-right: 30px;
 
         .name {
           text-transform: uppercase;
@@ -254,103 +250,108 @@ footer.main-footer {
       
     }
     text-align: center;
-    padding: 35px 0 90px;
+    padding-bottom: 30px;
   }
   background: #eee;
 }
 
 .sponsors {
   header { @extend .event-header; }
+  
   article {
     display: flex;
-    flex-direction: row;
-    justify-content: center;
-    padding: 50px 0;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 30px 0;
+    
     .sponsor {
-      flex-grow: 1;
-      flex-basis: 0;
+      width: 50%;
+      display: flex;
+      margin-bottom: 15px;
       text-align: center;
+      
+      a {
+          flex: 1;
+      }
+      
       img {
-        height: 110px;
-        width: 160px;
+        width: 90%;
         filter: grayscale(100%);
       }
 
       a:hover img { filter: grayscale(0); }
     }
   }
-  min-height: 220px;
 }
 
 .list-n-twitter {
   background: #eee;
-  padding: 20px;
+  padding: 15px;
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   min-height: 470px;
 
   .subscribe, .twitter-stream {
-    flex-basis: 0;
-    flex-grow: 1;
+    flex: 0 0 100%;
   }
 
   .subscribe {
     background: $event-blue-background;
     color: white;
-    margin-right: 20px;
     text-align: center;
-    padding: 90px 120px;
+    padding: 30px 15px;
     display: flex;
     flex-direction: column;
 
     header, .signup, .schedule, footer {
-      flex-grow: 1;
-      flex-basis: 0;
-      margin-bottom: 32px;
+      flex: 1;
     }
+    
     header { font-size: 28px; }
     .signup { font-size: 16px; color: #9ca8b4; }
     .schedule { color: #2c8188; }
+    
     footer { 
       margin-bottom: 0px; 
-      a { @extend .border-btn; }
+      a { @extend .border-btn; font-size: 14px; letter-spacing: 8px; }
     }
   }
 }
 
 
 .past-events {
+  margin-bottom: 30px;
+  
   footer { 
     text-align: center;
     padding: 25px;
     a { @extend .flat-btn; }
   }
+  
   article {
-    padding: 30px 0;
+    padding: 30px 0 0;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-wrap: wrap;
 
     .past-event {
-      flex-grow: 0;
-      flex-basis: 0;
-      margin-right: 30px;
-      width: 275px;
+      width: 100%;
+      margin-bottom: 30px;
       text-align: left;
+      
       &:last-child { margin-right: 0; }
+      
       .image img {
-        width: 275px;
-        height: 170px;
+        width: 100%;
+        background: white;
       }
+      
       .info {
         padding: 20px;
-        background: $event-blue-background;
         color: white;
-        height: 189px;
-        display: flex;
-        flex-direction: column;
+        
         .title {font-size: 17px;}
         .date { flex-grow: 1; color: #737a94; font-size: 12px;}
+        
         .view {
           text-align: center;
           margin-top: 20px;
@@ -367,26 +368,28 @@ footer.main-footer {
           }
         }
       }
+      
+      .image, .info {
+          background: $event-blue-background;
+      }
     }
   }
 }
 
 .next-event {
   article {
-    min-height: 400px;
+    padding-top: 30px;
     display: flex;
-    flex-direction: row;
+    flex-wrap: wrap;
+    
     .event-img { 
-      flex-basis: 0;
-      flex-grow: 1; 
+      width: 100%; 
       text-align: center;
-      padding-top: 54px;
+      
       img {width: 100%;}
     }
+    
     .event-info { 
-      padding: 54px 101px 0;
-      flex-grow: 1;
-      flex-basis: 0;
       color: $text-gray;
 
       .title {
@@ -395,11 +398,13 @@ footer.main-footer {
         border-bottom: 1px solid $light-gray;
         color: $title-gray;
       }
+      
       label {
         margin-bottom: 14px;
         font-size: 12px;
         text-transform: uppercase;
       }
+      
       .description {
         font-size: 13px;
         margin-bottom: 43px;
@@ -412,6 +417,7 @@ footer.main-footer {
         border-bottom: 1px solid $light-gray;
         padding: 11px 0;
         font-size: 14px;
+        
         .name { 
           display: inline-block;
           margin-right: 10px;
@@ -433,4 +439,121 @@ footer.main-footer {
       }
     }
   }
+}
+
+@media (min-width: 544px) {
+    .logo-menu {
+        display: flex;
+        flex-wrap: wrap;
+        
+        img {
+            height: 50px;
+            min-width: 197px;
+        }
+        
+         .motto {
+             margin: 0;
+             padding-left: 15px;
+             flex: 1;
+         }
+         
+         .main-menu { width: 100%; }
+    }
+    
+    .past-events article .past-event {
+        display: flex;
+        width: 50%;
+        flex-wrap: wrap;
+        flex-direction: column;
+        
+        &:nth-child(odd) { padding-right: 10px; }
+        &:nth-child(even) { padding-left: 10px; }
+        
+        .image { flex: 1 0 auto; }
+    }
+    
+    .contact-us article .members .member,
+    .sponsors article .sponsor {
+        width: 33.33%;
+    }
+}
+
+@media (min-width: 768px) {
+    .logo-menu {
+        display: flex;
+        padding-bottom: 1em;
+        
+        img, .motto, .main-menu { width: auto; }
+        
+        img {
+            height: 50px;
+            min-width: 197px;
+        }
+        
+        .main-menu {
+            flex: 1 0 110px;
+            text-align: right;
+            padding: 0;
+            margin: 0;
+        }
+    }
+    
+    .slack-form { flex: 0 0 40%; }
+    
+    .social-icons {
+        flex: 0 0 60%;
+        max-width: 480px;
+        border-left: 1px solid #f4f4f4;
+        padding-left: 30px;
+        
+        .sm-link {
+            flex-direction: row;
+            
+            &:last-child { flex: 0; }
+        }
+        
+        .fa-stack { margin-right: 4px; }
+    }
+    
+    .next-event article {
+        .event-info {
+            width: 60%;
+            padding: 0 30px 0;    
+        } 
+        .event-img {
+            width: 40%;
+        }
+    }
+    
+    .list-n-twitter {
+        .subscribe {
+            flex: 0 0 70%;
+        }
+        .twitter-stream {
+            flex: 0 0 30%;
+            padding: 15px;
+        }
+    }
+}
+
+@media (min-width: 992px) {
+    
+    .past-events article {
+        margin-left: -10px;
+        margin-right: -10px;
+        
+        .past-event {
+            width: 25%;
+            padding: 0 10px;
+        }
+    }
+    
+    .featured-videos article .video {
+        width: 50%;
+        padding: 0 15px;
+    }
+    
+    .sponsors article .sponsor {
+        flex: 1;
+    }
 }
