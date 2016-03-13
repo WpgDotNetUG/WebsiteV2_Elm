@@ -4,7 +4,10 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Signal exposing (Signal, Address)
 import Date
+import Array
 import Date.Format exposing (format)
+import Random
+import Random.Array as RA
 
 import Actions exposing (..)
 import Models exposing (..)
@@ -18,7 +21,7 @@ view address model =
     [ header [] [socialMedia, logoMenu]
     , nextEvent model.next
     , pastEvents model.pastEvents
-    , featuredVideos model.videos
+    , featuredVideos model.videos model.seed
     , listRegistration
     , sponsorsView model.sponsors
     , contactView model.board
@@ -65,9 +68,10 @@ sponsorsView sponsors  =
       , article [] sponsorMap
       ]
 
-featuredVideos videos =
+
+featuredVideos videos seed =
   let
-    featured = videos |> List.take 3 
+    featured = videos |> Array.fromList |> RA.shuffle seed |> fst |> Array.toList |> List.take 3
 
     mkFeature v = div [class "video"]
       [ header [] [aBlank [href v.link] [img [src v.thumbnail] []]]
@@ -199,7 +203,7 @@ socialIcons =
     linkTo link i t hint = a [title hint, class "sm-link", href link, target "_blank"] [icon i, text t]
     twitter  = "https://twitter.com/wpgnetug" 
     facebook = "https://www.facebook.com/winnipegdotnet"
-    gitHub   = "https://github.com/WpgDotNetUG/UserGroupWebsite"
+    gitHub   = "https://github.com/WpgDotNetUG/WebsiteV2_Elm"
   in 
   div [class "social-icons"]
     [ linkTo twitter  "twitter"  "Follow" "Follow us on Twitter."
