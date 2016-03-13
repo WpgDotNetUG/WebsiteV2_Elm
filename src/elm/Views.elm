@@ -97,7 +97,9 @@ listRegistration =
         , footer [] [aBlank [href "http://eepurl.com/clTOr"] [text "Add me to the list"]]
         ]
     , article [class "twitter-stream"]
+        [aBlank [class "twitter-timeline", href "https://twitter.com/wpgnetug", attribute "data-widget-id" "709094677924818945"]
         [text "twitter stream"]
+        ]
     ]
 
 pastEvents events =
