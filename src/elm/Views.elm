@@ -93,7 +93,9 @@ listRegistration =
         , footer [] [aBlank [href "http://eepurl.com/clTOr"] [text "Add me to the list"]]
         ]
     , article [class "twitter-stream"]
-        [text "twitter stream"]
+        [aBlank [class "twitter-timeline", href "https://twitter.com/wpgnetug", attribute "data-widget-id" "709094677924818945"]
+        [text "twitter stream. NEED a stream!"]
+        ]
     ]
 
 pastEvents events =
@@ -200,7 +202,7 @@ socialIcons =
     gitHub   = "https://github.com/WpgDotNetUG/UserGroupWebsite"
   in 
   div [class "social-icons"]
-    [ linkTo twitter  "twitter"  "Follow" "Follow us on Twitter"
+    [ linkTo twitter  "twitter"  "Follow" "Follow us on Twitter."
     , linkTo facebook "facebook" "Like" "Like us on Facebook"
     , linkTo youTube  "youtube-play" "Subscribe" "Subscribe to our YouTube channel to get notifications"
     , linkTo gitHub   "github"   "Fork" "Fork us on GitHub and collaborate"

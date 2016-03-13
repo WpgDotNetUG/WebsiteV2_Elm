@@ -89,6 +89,20 @@ gulp.task("fonts", function () {
     .pipe($.size({ title: "fonts" }));
 });
 
+// Copy over js to the "dist" directory
+gulp.task("js", function () {
+  return gulp.src("src/assets/scripts/**")
+    .pipe(gulp.dest("dist/assets/scripts"))
+    .pipe($.size({ title: "scripts" }));
+});
+
+// Copy over js to the "serve" directory
+gulp.task("js:dev", function () {
+  return gulp.src("src/assets/scripts/**")
+    .pipe(gulp.dest("serve/assets/scripts"))
+    .pipe($.size({ title: "scripts" }));
+});
+
 gulp.task("images:dev", function () {
   return gulp.src("src/assets/images/**")
     .pipe(gulp.dest("serve/assets/images"))
@@ -228,7 +242,7 @@ gulp.task('test', ['elm-init'], () => {
     .pipe(shell(
       [ 'echo start elm-test build'
       , 'sh ./elm-stuff/packages/laszlopandy/elm-console/1.1.0/elm-io.sh tmp/Main.js tmp/test.js'
-      , 'node tmp/test.js' 
+      , 'node tmp/test.js'
       ]
     ));
 })
