@@ -98,7 +98,7 @@ listRegistration =
         ]
     , article [class "twitter-stream"]
         [aBlank [class "twitter-timeline", href "https://twitter.com/wpgnetug", attribute "data-widget-id" "709094677924818945"]
-        [text "twitter stream."]
+        [text "twitter stream"]
         ]
     ]
 
@@ -206,7 +206,7 @@ socialIcons =
     gitHub   = "https://github.com/WpgDotNetUG/WebsiteV2_Elm"
   in 
   div [class "social-icons"]
-    [ linkTo twitter  "twitter"  "Follow" "Follow us on Twitter."
+    [ linkTo twitter  "twitter"  "Follow" "Follow us on Twitter"
     , linkTo facebook "facebook" "Like" "Like us on Facebook"
     , linkTo youTube  "youtube-play" "Subscribe" "Subscribe to our YouTube channel to get notifications"
     , linkTo gitHub   "github"   "Fork" "Fork us on GitHub and collaborate"
