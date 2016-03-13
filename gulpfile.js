@@ -198,7 +198,7 @@ gulp.task("watch", function () {
   // We need to copy dev, so index.html may be replaced by error messages.
   gulp.watch(["src/elm/**/*.elm"], ["elm", "copy:dev", reload]);
   gulp.watch(["src/assets/scss/**/*.scss"], ["styles", "copy:dev", reload]);
-  gulp.watch(["src/assets/images/**"], ["images:dev", "copy:dev", reload]);
+  gulp.watch(["src/assets/images/**"], ["copy:dev", reload]);
   // Watch JS folder
   gulp.watch(["src/index.html", "src/js/**/*.js"], ["copy:dev", reload]);
 });
@@ -219,7 +219,7 @@ gulp.task("default", ["serve:dev", "watch"]);
 
 // Builds the site but doesn't serve it to you.
 // Delete should run and complete before other tasks.
-gulp.task("build", gulpSequence("clean:dev", ["styles", "copy:dev", "elm"]));
+gulp.task("build", gulpSequence("clean:dev", ["styles", "copy:dev", "images:dev", "elm"]));
 
 // Builds your site with the "build" command and then runs all the optimizations on
 // it and outputs it to "./dist"

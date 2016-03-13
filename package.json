@@ -6,6 +6,8 @@
   "license": "LGPL-3.0",
   "description": "Winnipeg Dot Net User Group Website",
   "dependencies": {
+    "del": "^2.2.0",
+    "gulp": "^3.9.1"
   },
   "devDependencies": {
     "browser-sync": "^1.5.7",
