@@ -98,7 +98,7 @@ listRegistration =
         ]
     , article [class "twitter-stream"]
         [aBlank [class "twitter-timeline", href "https://twitter.com/wpgnetug", attribute "data-widget-id" "709094677924818945"]
-        [text "twitter stream. NEED a stream!"]
+        [text "twitter stream."]
         ]
     ]
 
