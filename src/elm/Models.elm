@@ -12,6 +12,7 @@ type alias Model =
   , board : List BoardMember
   , videos : List Video
   , seed: Seed
+  , openMenu: Bool
   }
 
 emptyModel = 
@@ -21,7 +22,8 @@ emptyModel =
     pastEvents = [],
     sponsors = [],
     videos = [],
-    seed = Random.initialSeed 0
+    seed = Random.initialSeed 0,
+    openMenu = False
   }
 
 type alias Video = 

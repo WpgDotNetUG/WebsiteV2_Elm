@@ -7,6 +7,7 @@ type Action
   | LoadBoard    (Maybe (List BoardMember))
   | LoadEvents   (Maybe (List Event))
   | LoadVideos   (Maybe (List Video))
+  | ToggleMenu
   | NoOp
 
 

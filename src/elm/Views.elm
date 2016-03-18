@@ -2,6 +2,7 @@ module Views (..) where
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Signal exposing (Signal, Address)
 import Date
 import Array
@@ -13,12 +14,13 @@ import Actions exposing (..)
 import Models exposing (..)
 
 aBlank xs = a <| target "_blank"::xs
-anchor s = a [name s] []
+anchor s = a [id s] []
 
 view : Address Action -> Model -> Html
 view address model = 
-  div [class "container"]
-    [ header [] [socialMedia, logoMenu]
+  let ctnrClass = "container" ++ if model.openMenu then " drawer-open" else ""
+  in div [class ctnrClass]
+    [ header [] [navSocial address, logoMenu address]
     , nextEvent model.next
     , pastEvents model.pastEvents
     , featuredVideos model.videos model.seed
@@ -30,6 +32,7 @@ view address model =
         , div [class "copyright"] [text "© Winnipeg Dot Net User Group 2015"]
         , div [class "version"] [text "v0.1 aabbcc"]
         ]
+    , div [class "backdrop"] []
     ]
 
 img_asset s = "/assets/images/" ++ s
@@ -64,7 +67,8 @@ sponsorsView sponsors  =
       xs -> xs |> List.map sponsorImage
 
   in section [class "sponsors"] 
-      [ header  [] [text "Sponsors"]
+      [ anchor "sponsors"
+      , header  [] [text "Sponsors"]
       , article [] sponsorMap
       ]
 
@@ -91,7 +95,8 @@ featuredVideos videos seed =
 listRegistration =
   div [class "list-n-twitter"]
     [ article [class "subscribe"]
-        [ header [] [text "Want to make sure you don't miss a meeting?"]
+        [ anchor "subscribe"
+        , header [] [text "Want to make sure you don't miss a meeting?"]
         , div [class "signup"] [text "Then take a minute and sign up for the Winnipeg .NET user group mailing list!"]
         , div [class "schedule"] [text "You can be on top of our event schedule, and all you need to do is check you email. Sign up now and don't miss another meeting." ]
         , footer [] [aBlank [href "http://eepurl.com/clTOr"] [text "Add me to the list"]]
@@ -115,7 +120,8 @@ pastEvents events =
         ]
   in
     section [class "past-events"]
-      [ header  [class "event-header"] [text "Past Events"] 
+      [ anchor "past-events"
+      , header  [class "event-header"] [text "Past Events"] 
       , article [] (events |> List.take 4 |> List.map mkWidget)
       , footer [] [aBlank [href "http://www.eventbrite.ca/o/winnipeg-dot-net-user-group-1699161450"] [text "View All"]]
       ]
@@ -124,8 +130,8 @@ nextEvent =
   let 
     showEvent e =
       section [class "next-event"]
-        [
-          header  [class "event-header"] [text "Next Event"]
+        [ anchor "next-event"
+        , header  [class "event-header"] [text "Next Event"]
         , article []
             [ div [class "event-img"] [img [src e.logo] []]
             , div [class "event-info"]
@@ -161,7 +167,7 @@ menuOptions =
   , a [title "Contact us", href "#contact-us"] [text "Contact"]
   ]
 
-logoMenu =
+logoMenu address =
   div [class "logo-menu"]
     [ img [src "/assets/images/logo.png"] []
     , section [class "motto"]
@@ -169,11 +175,24 @@ logoMenu =
         , div [class "description"] [text "A user group full of lambdas, folds, MVC, ponnies and rainbows!"]
         ]
     , div [class "main-menu"] menuOptions
+    , a [class "button-open", href "javascript:void(0)", onClick address ToggleMenu] [iconFor "bars"]
     ]
 
-socialMedia = div [class "social-media"] [slackForm, socialIcons]
+navSocial address = div [class "nav-social"] [navMenu, slackForm, socialIcons, navClose address]
 
 iconFor icn = i [class <| "fa fa-" ++ icn] []
+  
+navMenu =
+  ul [class "nav-menu"]
+    [ li [] [a [href "#next-event" ] [text "Next Event"]]
+    , li [] [a [href "#past-events"] [text "Past Events"]]
+    , li [] [a [href "#subscribe"  ] [text "Subscribe"]]
+    , li [] [a [href "#sponsors"   ] [text "Sponsors"]]
+    , li [] [a [href "#contact-us" ] [text "Contact Us"]]
+    ]
+
+navClose address =
+  a [class "button-close", href "javascript:void(0)", onClick address ToggleMenu] [iconFor "close"]
 
 slackForm =
   div [class "slack-form"]
@@ -211,4 +230,3 @@ socialIcons =
     , linkTo youTube  "youtube-play" "Subscribe" "Subscribe to our YouTube channel to get notifications"
     , linkTo gitHub   "github"   "Fork" "Fork us on GitHub and collaborate"
     ]
-

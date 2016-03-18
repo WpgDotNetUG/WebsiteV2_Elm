@@ -219,7 +219,7 @@ gulp.task("default", ["serve:dev", "watch"]);
 
 // Builds the site but doesn't serve it to you.
 // Delete should run and complete before other tasks.
-gulp.task("build", gulpSequence("clean:dev", ["styles", "copy:dev", "images:dev", "elm"]));
+gulp.task("build", gulpSequence("clean:dev", ["styles", "copy:dev", "images:dev", "js:dev", "elm"]));
 
 // Builds your site with the "build" command and then runs all the optimizations on
 // it and outputs it to "./dist"
