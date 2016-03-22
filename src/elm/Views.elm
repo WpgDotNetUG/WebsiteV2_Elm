@@ -110,7 +110,8 @@ listRegistration =
         , footer [] [aBlank [href "http://eepurl.com/clTOr"] [text "Add me to the list"]]
         ]
     , article [class "twitter-stream"]
-        [aBlank [class "twitter-timeline", href "https://twitter.com/wpgnetug", attribute "data-widget-id" "709094677924818945"]
+        [aBlank [class "twitter-timeline", href "https://twitter.com/wpgnetug", 
+          attribute "data-widget-id" "709094677924818945", attribute "data-tweet-limit" "3"]
           [text "twitter stream. NEED a stream!"]
         ]
     ]
@@ -148,7 +149,9 @@ nextEvent =
                 [ simple div "title" e.title
                 , single label "Description"
                 , mkParagraphs e.description |> simple' div "description"
-                , div [class "date"       ]
+                ]
+            , div [class "details"]
+                [ div [class "date"       ]
                     [ icon "icon" "calendar"
                     , text <| format "%A, %B %e, %Y" e.date
                     ]
@@ -157,8 +160,8 @@ nextEvent =
                     , divT "name"    e.venue.name
                     , divT "address" e.venue.address
                     ]
-                , footer [] [aBlank [href e.link] [text "Count me in!"]]
                 ]
+             , footer [] [aBlank [href e.link] [text "Count me in!"]]
             ]
         ]
 
