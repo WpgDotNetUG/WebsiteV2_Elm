@@ -274,6 +274,7 @@ a[id]::before {
   
   .event-img img { width: 100%; }
   .event-info { margin: 0 30px; color: $text-gray; }
+  .details { padding: 0 30px; }
   .date { font-weight: bold; }  
 
   .icon {
@@ -339,14 +340,8 @@ a[id]::before {
   }
 
   .twitter-stream {
-    .twitter-timeline {
-      width: 100% !important;
-
-      html body .timeline-Widget {
-        width:100%;
-        max-width: 100%;
-      }
-    }
+    text-align: center;
+    background-color: white;    
   }
 }
 .subscribe {
@@ -603,8 +598,14 @@ a[id]::before {
   .next-event {
     margin-top: 0;
     
+    > article { flex-flow: row wrap; }
+    
     .event-img, 
-    .event-info { width: 50%; }
+    .event-info,
+    .details,
+    footer { width: 50%; }
+    
+    .event-img { background-color: #fafafa; }
     
     .event-info {
       padding: 0 30px 0;
@@ -802,7 +803,7 @@ a[id]::before {
 
 
 // Development
-.event-img,
+//.event-img,
 .placeholder {
   background-color: #ddd;
   background-image: 
