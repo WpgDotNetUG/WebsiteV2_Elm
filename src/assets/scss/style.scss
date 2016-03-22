@@ -275,6 +275,18 @@ a[id]::before {
   .event-img img { width: 100%; }
   .event-info { margin: 0 30px; color: $text-gray; }
   .date { font-weight: bold; }  
+
+  .icon {
+    text-align:center;
+    margin-right: 10px;
+  }
+
+  .venue {
+    margin-top: 10px;
+    i:last-child {
+      vertical-align: top;
+    }
+  }
 }
 
 
@@ -602,6 +614,11 @@ a[id]::before {
     .description {
       font-size: 13px;
       text-align: justify;
+      line-height: 1.8em;
+
+      p:last-child {
+        font-weight: bold;
+      }
     }
     
     .description,
@@ -623,7 +640,9 @@ a[id]::before {
       .icon { float: left; } 
     }
     
-    .icon { vertical-align: middle;}
+    .icon { 
+      vertical-align: middle;
+    }
   }
 
 

@@ -9,12 +9,20 @@ import Array
 import Date.Format exposing (format)
 import Random
 import Random.Array as RA
+import String
 
 import Actions exposing (..)
 import Models exposing (..)
 
 aBlank xs = a <| target "_blank"::xs
 anchor s = a [id s] []
+single tag t = tag [] [text t]
+simple tag c t = tag [class c] [text t]
+simple' tag c = tag [class c]
+icon c fa = div [class c] [iconFor fa]
+image c url = div [class c] [img [src url] []]
+divT = simple div
+divL = simple' div
 
 view : Address Action -> Model -> Html
 view address model = 
@@ -28,9 +36,9 @@ view address model =
     , sponsorsView model.sponsors
     , contactView model.board
     , footer [class "main-footer"] 
-        [ div [class "menu"] menuOptions
-        , div [class "copyright"] [text "© Winnipeg Dot Net User Group 2015"]
-        , div [class "version"] [text "v0.1 aabbcc"]
+        [ divL "menu" menuOptions
+        , divT "copyright" "© Winnipeg Dot Net User Group 2015"
+        , divT "version" "v0.1 aabbcc"
         ]
     , div [class "backdrop"] []
     ]
@@ -42,9 +50,9 @@ contactView members =
     mailTo = (++) "mailto:winnipegdotnet@gmail.com?subject=ATTN: "
     mkContact mbr = div [class "member", title mbr.name]
       [ img [src mbr.image] []
-      , div [class "name"] [text mbr.name]
-      , div [class "role"] [text mbr.role]
-      , div [class "contact"] [a [href <| mailTo mbr.contact] [text mbr.contact]]
+      , divT "name" mbr.name
+      , divT "role" mbr.role
+      , divL "contact" [a [href <| mailTo mbr.contact] [text mbr.contact]]
       ] 
     contactMap = case members of
       [] -> [text "No contact information available at the moment"]
@@ -54,8 +62,8 @@ contactView members =
       [ anchor "contact-us"
       , header  [] [text "Contact Us"]
       , article [] 
-          [ div [class "message"] [text "Looking to reach out directly to the Winnipeg .NET User Group board? Click on the board member to ask your query."]
-          , div [class "members"] contactMap
+          [ divT "message" "Looking to reach out directly to the Winnipeg .NET User Group board? Click on the board member to ask your query."
+          , divL "members" contactMap
           ]
       ]
 
@@ -97,8 +105,8 @@ listRegistration =
     [ article [class "subscribe"]
         [ anchor "subscribe"
         , header [] [text "Want to make sure you don't miss a meeting?"]
-        , div [class "signup"] [text "Then take a minute and sign up for the Winnipeg .NET user group mailing list!"]
-        , div [class "schedule"] [text "You can be on top of our event schedule, and all you need to do is check you email. Sign up now and don't miss another meeting." ]
+        , divT "signup"   "Then take a minute and sign up for the Winnipeg .NET user group mailing list!"
+        , divT "schedule" "You can be on top of our event schedule, and all you need to do is check you email. Sign up now and don't miss another meeting." 
         , footer [] [aBlank [href "http://eepurl.com/clTOr"] [text "Add me to the list"]]
         ]
     , article [class "twitter-stream"]
@@ -111,11 +119,11 @@ pastEvents events =
   let
     mkWidget e = 
       div [class "past-event"]
-        [ div [class "image"] [img [src e.logo] []]
+        [ image "image" e.logo
         , div [class "info"]
-            [ div [class "title"] [text e.title]
-            , div [class "date"] [text <| format "%b %e, %Y" e.date]
-            , div [class "view"] [aBlank [href e.link] [text "View"]]
+            [ divT "title" e.title
+            , divT "date"  (e.date |> format "%b %e, %Y")
+            , divL "view" [aBlank [href e.link] [text "View"]]
             ]
         ]
   in
@@ -126,26 +134,28 @@ pastEvents events =
       , footer [] [aBlank [href "http://www.eventbrite.ca/o/winnipeg-dot-net-user-group-1699161450"] [text "View All"]]
       ]
 
+
 nextEvent =
   let 
+    mkParagraphs txt = txt |> String.split "\n" |> List.map (single p)
     showEvent e =
       section [class "next-event"]
         [ anchor "next-event"
-        , header  [class "event-header"] [text "Next Event"]
+        , simple header "event-header" "Next Event"
         , article []
-            [ div [class "event-img"] [img [src e.logo] []]
+            [ image "event-img" e.logo
             , div [class "event-info"]
-                [ div [class "title"] [text e.title]
-                , label [] [text "Description"]
-                , div [class "description"] [text e.description ]
+                [ simple div "title" e.title
+                , single label "Description"
+                , mkParagraphs e.description |> simple' div "description"
                 , div [class "date"       ]
-                    [ div [class "icon"] [iconFor "calendar"]
+                    [ icon "icon" "calendar"
                     , text <| format "%A, %B %e, %Y" e.date
                     ]
                 , div [class "venue"]
-                    [ div [class "icon"] [iconFor "map-marker"]
-                    , span [class "name"] [text e.venue.name]
-                    , span [class "address"] [text e.venue.address]
+                    [ icon "icon" "map-marker"
+                    , divT "name"    e.venue.name
+                    , divT "address" e.venue.address
                     ]
                 , footer [] [aBlank [href e.link] [text "Count me in!"]]
                 ]
@@ -172,7 +182,7 @@ logoMenu address =
     [ img [src "/assets/images/logo.png"] []
     , section [class "motto"]
         [ header [] [text "Winnipeg Dot Net User Group"]
-        , div [class "description"] [text "A user group full of lambdas, folds, MVC, ponnies and rainbows!"]
+        , divT "description" "A user group full of lambdas, folds, MVC, ponnies and rainbows!"
         ]
     , div [class "main-menu"] menuOptions
     , a [class "button-open", href "javascript:void(0)", onClick address ToggleMenu] [iconFor "bars"]
@@ -183,13 +193,16 @@ navSocial address = div [class "nav-social"] [navMenu, slackForm, socialIcons, n
 iconFor icn = i [class <| "fa fa-" ++ icn] []
   
 navMenu =
-  ul [class "nav-menu"]
-    [ li [] [a [href "#next-event" ] [text "Next Event"]]
-    , li [] [a [href "#past-events"] [text "Past Events"]]
-    , li [] [a [href "#subscribe"  ] [text "Subscribe"]]
-    , li [] [a [href "#sponsors"   ] [text "Sponsors"]]
-    , li [] [a [href "#contact-us" ] [text "Contact Us"]]
-    ]
+  let
+    toLi (lnk, t) = li [] [a [href <| "#" ++ lnk] [text t]]
+    items = [
+       ("next-event", "Next Event")
+      ,("past-events", "Past Events")
+      ,("subscribe", "Subscribe")
+      ,("sponsors", "Sponsors")
+      ,("contact-us", "Contact Us")
+      ]
+  in ul [class "nav-menu"] (items |> List.map toLi)
 
 navClose address =
   a [class "button-close", href "javascript:void(0)", onClick address ToggleMenu] [iconFor "close"]
