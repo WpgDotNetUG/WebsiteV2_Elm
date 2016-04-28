@@ -41,6 +41,7 @@ update action model =
     LoadVideos   (Just videos)  -> ({model | videos  = videos, seed = randomSeed |> Random.initialSeed }, Effects.none)
     LoadEvents   (Just events)  -> (assignEvents events model, Effects.none)
     ToggleMenu                  -> ({model | openMenu=not model.openMenu}, Effects.none)
+    ToggleSlack                 -> ({model | showSlack=not model.showSlack}, Effects.none)
     _ -> (model, Effects.none)
 
 assignEvents events model =

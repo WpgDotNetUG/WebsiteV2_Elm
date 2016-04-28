@@ -8,6 +8,7 @@ type Action
   | LoadEvents   (Maybe (List Event))
   | LoadVideos   (Maybe (List Video))
   | ToggleMenu
+  | ToggleSlack
   | NoOp
 
 

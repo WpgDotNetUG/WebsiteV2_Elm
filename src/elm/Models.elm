@@ -13,17 +13,18 @@ type alias Model =
   , videos : List Video
   , seed: Seed
   , openMenu: Bool
+  , showSlack: Bool
   }
 
 emptyModel = 
-  { 
-    next = Nothing,
-    board = [],
-    pastEvents = [],
-    sponsors = [],
-    videos = [],
-    seed = Random.initialSeed 0,
-    openMenu = False
+  { next = Nothing
+  , board = []
+  , pastEvents = []
+  , sponsors = []
+  , videos = []
+  , seed = Random.initialSeed 0
+  , openMenu = False
+  , showSlack = False
   }
 
 type alias Video = 
