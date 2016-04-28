@@ -31,7 +31,7 @@ view : Address Action -> Model -> Html
 view address model = 
   let ctnrClass = "container" ++ if model.openMenu then " drawer-open" else ""
   in div [class ctnrClass]
-    [ header [] [navSocial address, logoMenu address]
+    [ header [] [navSocial address model, logoMenu address]
     , nextEvent model.next
     , pastEvents model.pastEvents
     , featuredVideos model.videos model.seed
@@ -219,7 +219,10 @@ logoMenu address =
     , a [class "button-open", href "javascript:void(0)", onClick address ToggleMenu] [iconFor "bars"]
     ]
 
-navSocial address = div [class "nav-social"] [navMenu, slackForm, socialIcons, navClose address]
+navSocial address model = 
+  let slackSignup = if model.showSlack then " slack-signup" else ""
+  in divL ("nav-social" ++ slackSignup)
+    [navMenu, slackForm address, socialIcons, navClose address]
 
   
 navMenu =
@@ -237,7 +240,7 @@ navMenu =
 navClose address =
   a [class "button-close", href "javascript:void(0)", onClick address ToggleMenu] [iconFor "close"]
 
-slackForm =
+slackForm address =
   div [class "slack-form"]
     [ Html.form
         [title "Chat with us on Slack", action "https://wpgdotnet.slack.com"]
@@ -245,7 +248,7 @@ slackForm =
             [ class "form-group"]
             [ iconFor "slack"
             , input [type' "email", id "email", class "form-control", placeholder "you@domain.com"] []
-            , label [for "email"] [text "slack"]
+            , label [for "email", onClick address ToggleSlack] [text "slack"]
             ]
         ]
     ]
