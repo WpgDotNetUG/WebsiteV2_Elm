@@ -222,12 +222,12 @@ logoMenu address =
 navSocial address model = 
   let slackSignup = if model.showSlack then " slack-signup" else ""
   in divL ("nav-social" ++ slackSignup)
-    [navMenu, slackForm address, socialIcons, navClose address]
+    [navMenu address, slackForm address, socialIcons, navClose address]
 
   
-navMenu =
+navMenu address =
   let
-    toLi (lnk, t) = li [] [a [href <| "#" ++ lnk] [text t]]
+    toLi (lnk, t) = li [] [a [href <| "#" ++ lnk, onClick address ToggleMenu] [text t]]
     items = [
        ("next-event", "Next Event")
       ,("past-events", "Past Events")
