@@ -240,16 +240,15 @@ navClose =
 slackForm =
   div [class "slack-form"]
     [ Html.form
-        [class "form-inline", title "Chat with us on Slack"]
+        [title "Chat with us on Slack", action "https://wpgdotnet.slack.com"]
         [ div
-            [class "form-group"]
-            [ label [] [iconFor "slack", text "slack"]
-            , div
-                [class "input-group"]
-                [ input [title "Enter your email and submit to get an invite", class "form-control", type' "text", placeholder "you@domain.com"] []
-                , div [class "input-group-addon"]
-                   [iconFor "chevron-right"]
-    ] ] ] ]
+            [ class "form-group"]
+            [ iconFor "slack"
+            , input [type' "email", id "email", class "form-control", placeholder "you@domain.com"] []
+            , label [for "email"] [text "slack"]
+            ]
+        ]
+    ]
 
 youTube  = "https://www.youtube.com/channel/UC6OzdI6-htXE_97zamJRaaA"
 

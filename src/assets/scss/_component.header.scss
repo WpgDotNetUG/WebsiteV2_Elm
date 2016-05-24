@@ -1,6 +1,5 @@
 .motto,
-.main-menu,
-.slack-form {
+.main-menu {
   display: none;
 }
 
@@ -37,12 +36,14 @@
 }
 
 .nav-social {
+  display: flex;
+  flex-flow: column wrap;
   position: fixed;
   top: 0;
   left: 0;
   width: 40%;
   min-width: 240px;
-  height: 150%;
+  height: 200%;
   z-index: 100;
   padding: 0 15px;
   background-color: white;
@@ -52,7 +53,7 @@
   
   > .button-close {
     position: absolute;
-    top: 15px;
+    top: 10px;
     right: 15px;
     font-size: 30px;
     color: $greenish;
@@ -62,7 +63,7 @@
 }
 
 .nav-menu {
-  margin: 70px 0 20px;
+  margin: 40px 0 20px;
   padding: 0 0 2px;
   border-bottom: 4px solid $gray4;
   
@@ -79,7 +80,7 @@
   
   > li > a {
     display: block;
-    line-height: 50px;
+    line-height: 45px;
     color: $text-gray;
     text-decoration: none;
   }
@@ -108,7 +109,7 @@
 }
 
 .drawer-open .backdrop {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
@@ -116,7 +117,76 @@
   background-color: black;
   opacity: .5;
   z-index: 99;
-  transition: all 0.4s ease;
+}
+
+.slack-form {
+  margin-bottom: 10px;
+  
+  .form-group {
+    position: relative;
+    height: 30px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 12px;
+    
+    > label,
+    > input {
+      position: absolute;
+      top: 0;
+      transition: transform .4s ease;
+    }
+    
+    > label {
+      width: 100%;
+      left: 0;
+      padding-left: 34px;
+      line-height: 30px;
+      color: $gray2;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      z-index: 1;
+      cursor: pointer;
+    }
+    
+    > input {
+      height: 100%;
+      left: 30px;
+      padding: 2px 4px;
+      z-index: 0;
+      border: none;
+      font-size: 12px;
+      transform: translateY(-100%);
+      outline: none;
+      
+      &:focus {
+        border-bottom: 1px solid $gray3;
+        transform: translateY(0);
+      }
+      
+      &::-webkit-input-placeholder {
+        color: transparent;
+      }
+      
+      &:focus::-webkit-input-placeholder {
+        color: $text-gray;
+      }
+    }
+    
+    > input:focus ~ label {
+      transform: translateY(100%);
+    }
+    
+    .fa-slack {
+      margin-right: 4px;
+      color: #5D3A58;
+      font-size: 2.5em;
+      vertical-align: middle;
+    }
+    
+    .input-group-addon {
+      display: none;
+    }
+  }
 }
 
 @media (min-width: $screen-sm-min) {
@@ -133,14 +203,54 @@
   }
   
   .slack-form {
-    display: block;
-    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
     border-right: 1px solid $light-gray;
     padding-right: 30px;
+    margin-bottom: 0;
+    order: 0;
+    
+    .form-group {
+      height: auto;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      font-size: 10px;
+      
+      > label,
+      > input {
+        position: static;
+        transform: translateY(0);
+      }
+      
+      > label {
+        padding-left: 0;
+        margin-right: 4px;
+        order: 1;
+        letter-spacing: normal;
+      }
+      
+      > input {
+        padding: 6px 8px;
+        border: 1px solid $gray2;
+        border-radius: 3px;
+        order: 2;
+        
+        &::-webkit-input-placeholder,
+        &:focus::-webkit-input-placeholder {
+          color: $gray2;
+        }
+        
+        &:focus ~ label {
+          transform: translateY(0);
+        }
+      }
+    }
   }
   
   .nav-social {
-    display: flex;
+    flex-flow: row nowrap;
     position: static;
     width: 100%;
     padding: 10px 0;

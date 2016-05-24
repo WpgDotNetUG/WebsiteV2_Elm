@@ -12,6 +12,7 @@ html, body {
 
 .container {
   margin: 0 auto;
+  position: relative;
 
   &:before { 
     content: ""; 
