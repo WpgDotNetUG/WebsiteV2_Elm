@@ -1,5 +1,9 @@
 # Requirements
 
+## Note:
+
+If you've run this project on 0.17 it is recommended to remove the `elm-stuff` directory and run `elm package install` again.
+
 * [Install Elm architecture](http://elm-lang.org/install)
 
 # Running the site

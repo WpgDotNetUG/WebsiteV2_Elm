@@ -54,7 +54,7 @@ slackForm model =
         [ class "form-group"]
         [ iconFor "slack"
         , input 
-            [type' "email"
+            [type_ "email"
             , id "email"
             , class "form-control"
             , value model.slackEmail

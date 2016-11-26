@@ -14,12 +14,12 @@ aBlank xs = a <| target "_blank"::xs
 anchor s = a [id s] []
 single tag t = tag [] [text t]
 simple tag c t = tag [class c] [text t]
-simple' tag c = tag [class c]
+simpleClass tag c = tag [class c]
 icon c fa = div [class c] [iconFor fa]
 image c url = div [class c] [img [src url] []]
 divT = simple div
-divL = simple' div
-span' c t = simple span c t
+divL = simpleClass div
+spanSimple c t = simple span c t
 
 toggleIf val addition css = css ++ (if val then " " ++ addition else "")
 loading = divL "loading" [ i [class "fa fa-spin fa-spinner fa-5x"] [] ]

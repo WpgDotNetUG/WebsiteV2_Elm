@@ -1,11 +1,11 @@
 module Main exposing (..)
 
 import Task exposing (Task)
-import Html.App as Html
+import Html as Html
 import Date
 import Http exposing (..)
 import Random
-import Json.Decode as Json exposing ((:=))
+import Json.Decode as Json exposing (..)
 import Json.Encode as JsonEnc
 
 import Views exposing (..)
@@ -43,12 +43,12 @@ update msg model =
     updateTweets tw = { model | tweets = tw }
   in
     case msg of
-      SponsorsMsg msg' -> Sponsors.update msg' model
-      VideosMsg   msg' -> Videos.update   msg' model
-      BoardMsg    msg' -> Board.update    msg' model
-      EventsMsg   msg' -> Events.update   msg' model.events |> mapFst updateEvents
-      SocialMsg   msg' -> Social.update   msg' model.social |> mapFst updateSocial
-      TweetsMsg   msg' -> Tweets.update   msg' model.tweets |> mapFst updateTweets
+      SponsorsMsg msg1 -> Sponsors.update msg1 model
+      VideosMsg   msg1 -> Videos.update   msg1 model
+      BoardMsg    msg1 -> Board.update    msg1 model
+      EventsMsg   msg1 -> Events.update   msg1 model.events |> mapFst updateEvents
+      SocialMsg   msg1 -> Social.update   msg1 model.social |> mapFst updateSocial
+      TweetsMsg   msg1 -> Tweets.update   msg1 model.tweets |> mapFst updateTweets
       ApiFail Events e -> Events.update Events.Error model.events |> mapFst updateEvents
       ApiFail Tweets e -> Tweets.update Tweets.Error model.tweets |> mapFst updateTweets
       ApiFail NotifyUser error -> model ! [notifyUser Error <| errorMsg error]
@@ -57,9 +57,9 @@ update msg model =
 
 errorMsg e =
   case e of
-    Http.Timeout -> "Sorry, the call timeout"
-    Http.NetworkError        -> "Sorry, network error"
-    Http.UnexpectedPayload s -> "Sorry, unexpected payload " ++ s
-    Http.BadResponse code s  -> "Sorry, server responded with " ++ s
-
+    Http.Timeout        -> "Sorry, the call timeout"
+    Http.NetworkError   -> "Sorry, network error"
+    Http.BadUrl _       -> "Sorry, that's a bad URL"
+    Http.BadStatus _    -> "This was not the status we were looking for"
+    Http.BadPayload _ _ -> "Sorry, we received a bad payload from the server"
 

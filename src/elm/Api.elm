@@ -1,6 +1,6 @@
 module Api exposing (..)
 
-import Json.Decode as Json exposing ((:=))
+import Json.Decode as Json exposing (..)
 import Json.Decode.Extra as JsonX
 import Task exposing (Task)
 import Http exposing (..)
@@ -24,22 +24,29 @@ urlFor =
 
 resources = [getEvents, getBoard, getVideos, getTweets, getSponsors]
 
---postToSlack : Social.Email -> success -> Cmd Msg
-postToSlack email failMsg success =
-  { verb = "POST"
-  , headers = [("Content-type", "application/x-www-form-urlencoded")]
-  , url = urlFor "slack"
-  , body = Http.string <| "email=" ++ (uriEncode email)
-  }
-  |> Http.send Http.defaultSettings
-  |> fromJson slackDecoder
-  |> Task.perform (ApiFail failMsg) (success >> SocialMsg)
+handleSlackResponse fail success result =
+  case result of
+    (Ok data) -> SocialMsg (success data)
+    (Err msg) -> ApiFail fail msg 
+
+postToSlack email fail success =
+  let body = stringBody "application/x-www-form-urlencoded" <| ("email=" ++ (encodeUri email))
+  in
+     Http.post (urlFor "slack") body slackDecoder
+     |> Http.send (handleSlackResponse fail success)
+
+handleResourceResponse fail msg result =
+  case result of
+    (Ok data) -> msg data
+    (Err m)   -> fail m
 
 getResource resource decoder fail msg =
-  resource
-  |> urlFor
-  |> Http.get decoder
-  |> Task.perform (ApiFail fail) msg
+  Http.get (urlFor resource) decoder
+  |> Http.send (handleResourceResponse (ApiFail fail) msg)
+--resource
+--  |> urlFor
+--  |> Http.get decoder
+--  |> Task.perform (ApiFail fail) msg
 
 getEvents   = getResource "events"   eventsDecoder  Messages.Events (Events.Load   >> EventsMsg)
 getBoard    = getResource "board"    boardDecoder   Messages.NotifyUser (Board.Load    >> BoardMsg)
@@ -53,16 +60,16 @@ getTweets   = getResource "tweets"   tweetDecoder   Messages.Tweets (Resource.Lo
 ----------------
 
 slackDecoder =
-  Json.object2 
+  Json.map2 
     Social.SlackResponse
-    ("ok"    := Json.bool)
-    (Json.maybe <| "error" := Json.string)
+    (field "ok"    Json.bool)
+    (Json.maybe <| field "error" Json.string)
 
 venueDecoder = 
-  Json.object2
+  Json.map2
     Venue
-    ("name"    := Json.string)
-    ("address" := Json.string)
+    (field "name" Json.string)
+    (field "address" Json.string)
 
 eventsDecoder  =
   let 
@@ -90,78 +97,78 @@ eventsDecoder  =
         (season, past)
 
     cfgDecoder =
-      Json.object2
+      Json.map2
         (,)
-        ("isSummer" := Json.bool)
-        ("isWinter" := Json.bool)
+        (field "isSummer" Json.bool)
+        (field "isWinter" Json.bool)
 
     eventsDecoder = 
       Json.list 
-      <| Json.object7
+      <| Json.map7
           Events.Event
-          ("title"       := Json.string)
-          ("date"        := JsonX.date)
-          ("description" := Json.string)
-          ("logo"        := Json.string)
-          ("venue"       := venueDecoder)
-          ("link"        := Json.string)
-          ("status"      := Json.map toStatus Json.string)
+          (field "title"       Json.string)
+          (field "date"        JsonX.date)
+          (field "description" Json.string)
+          (field "logo"        Json.string)
+          (field "venue"       venueDecoder)
+          (field "link"        Json.string)
+          (field "status"      (Json.map toStatus Json.string))
   
   in 
-    Json.object2
+    Json.map2
       (,)
-      ("config" := cfgDecoder)
-      ("events" := eventsDecoder)
+      (field "config" cfgDecoder)
+      (field "events" eventsDecoder)
     |> Json.map seasonDecoder
 
 boardDecoder =
   Json.at ["board"]
   <| Json.list 
-  <| Json.object4
+  <| Json.map4
       Board.BoardMember
-      ("name"    := Json.string)
-      ("imgUrl"  := Json.string)
-      ("role"    := Json.string)
-      ("contact" := Json.string)
+      (field "name"    Json.string)
+      (field "imgUrl"  Json.string)
+      (field "role"    Json.string)
+      (field "contact" Json.string)
 
 sponsorDecoder =
   Json.at ["sponsors"]
   <| Json.list 
-  <| Json.object3 
+  <| Json.map3
       Sponsors.Sponsor
-      ("name"   := Json.string)
-      ("url"    := Json.string)
-      ("imgUrl" := Json.string)
+      (field "name"   Json.string)
+      (field "url"    Json.string)
+      (field "imgUrl" Json.string)
 
 videoDecoder =
   Json.at ["videos"]
   <| Json.list
-  <| Json.object5
+  <| Json.map5
       Videos.Video
-        ("title"       := Json.string)
-        ("link"        := Json.string)
-        ("description" := Json.string)
-        ("date"        := JsonX.date)
-        ("thumbnail"   := Json.string)
+        (field "title"       Json.string)
+        (field "link"        Json.string)
+        (field "description" Json.string)
+        (field "date"        JsonX.date)
+        (field "thumbnail"   Json.string)
 
 
 tweetDecoder =
   let
     userDecoder =
-      Json.object5
+      Json.map5
         Tweets.TweeterUser
-        ("id"   := Json.string)
-        ("screen_name" := Json.string)
-        ("name" := Json.string)
-        ("url"  := Json.string)
-        ("profile_image_url" := Json.string)
+        (field "id"   Json.string)
+        (field "screen_name" Json.string)
+        (field "name" Json.string)
+        (field "url"  Json.string)
+        (field "profile_image_url" Json.string)
 
   in
     Json.at ["tweets"]
     <| Json.list
-    <| Json.object3
+    <| Json.map3
         Tweets.Tweet
-        ("text" := Json.string)
-        ("created_at" := JsonX.date)
-        ("user" := userDecoder)
+        (field "text" Json.string)
+        (field "created_at" JsonX.date)
+        (field "user" userDecoder)
 

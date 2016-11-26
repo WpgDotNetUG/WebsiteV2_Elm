@@ -5,7 +5,7 @@ import Date exposing (Date)
 import Date.Format exposing (format)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Components.HtmlHelpers exposing (..) -- (aBlank, anchor, divT, divL, simple, icon, simple', image)
+import Components.HtmlHelpers exposing (..) -- (aBlank, anchor, divT, divL, simple, icon, simpleClass, image)
 import Resource exposing (..)
 
 -- Model
@@ -108,7 +108,7 @@ renderNext model =
             [ image "event-img" e.logo
             , div [class "event-info"]
                 [ simple div "title" e.title
-                , mkParagraphs e.description |> simple' div "description"
+                , mkParagraphs e.description |> simpleClass div "description"
                 ]
             , div [class "presenter"] []
             , div [class "details"]

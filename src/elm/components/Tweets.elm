@@ -3,7 +3,7 @@ module Components.Tweets exposing (..)
 import Date exposing (Date)
 import Html exposing (..)
 import Html.Attributes exposing (..)
-import Components.HtmlHelpers exposing (aBlank, anchor, divT, divL, span', loading)
+import Components.HtmlHelpers exposing (aBlank, anchor, divT, divL, spanSimple, loading)
 import Resource exposing (Resource)
 
 -- Model
@@ -74,8 +74,8 @@ view resource =
           ]
       , article [class "twitter-stream"]
           [ header [] 
-              [ span' "tweets" "Tweets "
-              , span' "by" "by " 
+              [ spanSimple "tweets" "Tweets "
+              , spanSimple "by" "by " 
               , a [href "https://twitter.com/wpgnetug"] [text "@wpgnetug"]
               ]
           , article [class "tweet-list"] tweetStream
